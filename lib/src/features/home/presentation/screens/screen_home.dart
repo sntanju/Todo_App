@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/src/features/todo/presentation/screens/todo_list_screen.dart';
 
 class ScreenHome extends StatelessWidget {
   const ScreenHome({super.key});
@@ -9,9 +10,11 @@ class ScreenHome extends StatelessWidget {
       backgroundColor: Colors.white,
       body: SafeArea(
 
-        child: Center(
-          child: Text("Welcome to Home Of Todo App"),
-        ),
+        child: TodoListScreen(),
+
+        // child: Center(
+        //   child: Text("Welcome to Home Of Todo App"),
+        // ),
 
       ),
     );

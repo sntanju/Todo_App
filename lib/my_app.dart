@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
               child: child!,
             );
           },
-          title: 'Book Explorer',
+          title: 'TODO APP',
           themeMode: ThemeMode.light,
           theme: buildLightTheme(context),
           initialRoute: Routes.homeScreen,

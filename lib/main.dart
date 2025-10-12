@@ -1,8 +1,10 @@
-
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo_app/src/core/application/token_service.dart';
 import 'package:todo_app/src/core/domain/interfaces/interface_cache_repository.dart';
 import 'package:todo_app/src/features/home/presentation/providers/provider_common.dart';
+import 'package:todo_app/src/features/todo/data/models/task_model.dart';
+import 'package:todo_app/src/features/todo/presentation/providers/provider_task.dart';
 import 'di_container.dart' as di;
 import 'package:provider/provider.dart';
 
@@ -10,6 +12,18 @@ import 'my_app.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // Initializing Hive
+  await Hive.initFlutter();
+  // Register the adapter
+  if (!Hive.isAdapterRegistered(0)) {
+    Hive.registerAdapter(TaskModelAdapter());
+  }
+
+  // Open box before using
+  await Hive.openBox<TaskModel>('tasks_box');
+
+
   await di.init();  //initializing Dependency Injection
 
   //update auth-token from cache [to check user logged-in or not]
@@ -20,7 +34,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => di.sl<ProviderCommon>()),
-        //ChangeNotifierProvider(create: (context) => di.sl<ProviderBook>()),
+        ChangeNotifierProvider(create: (context) => di.sl<ProviderTask>()),
       ],
       child: const MyApp(),
     ),

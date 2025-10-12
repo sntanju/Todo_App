@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:hive/hive.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/src/config/config_api.dart';
@@ -11,6 +10,10 @@ import 'package:todo_app/src/core/data/repositories/cache_repository_impl.dart';
 import 'package:todo_app/src/core/domain/interfaces/interface_api_interceptor.dart';
 import 'package:todo_app/src/core/domain/interfaces/interface_cache_repository.dart';
 import 'package:todo_app/src/features/home/presentation/providers/provider_common.dart';
+import 'package:todo_app/src/features/todo/data/datasources/task_local_datasource.dart';
+import 'package:todo_app/src/features/todo/data/repositories/task_repository_impl.dart';
+import 'package:todo_app/src/features/todo/domain/repositories/interface_task_repository.dart';
+import 'package:todo_app/src/features/todo/presentation/providers/provider_task.dart';
 
 final sl = GetIt.instance;
 
@@ -24,8 +27,11 @@ Future<void> init() async {
   ///REPOSITORIES
   //#region Repositories
   sl.registerLazySingleton<ICacheRepository>(() => CacheRepositoryImpl(sharedPreference: sl()));
-  //sl.registerLazySingleton<IBookRepository>(() => BookRepository(sl<Dio>()));
+  sl.registerLazySingleton(() => TaskLocalDataSource());
+  sl.registerLazySingleton<ITaskRepository>(
+          () => TaskRepositoryImpl(localDataSource: sl<TaskLocalDataSource>()));
   //#endregion
+
 
   ///USE-CASES
 
@@ -35,7 +41,8 @@ Future<void> init() async {
   ///PROVIDERS
   //region Providers
   sl.registerFactory(() => ProviderCommon(),);
-  //sl.registerFactory(() => ProviderBook(sl<IBookRepository>()));
+  sl.registerFactory(() => ProviderTask(sl<ITaskRepository>()));
+
 
   //interceptors
   sl.registerLazySingleton<IApiInterceptor>(() => ApiInterceptor(baseUrl: ConfigApi.baseUrl));   ///CHANGE SERVER HERE

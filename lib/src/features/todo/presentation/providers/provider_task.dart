@@ -3,8 +3,6 @@ import 'package:uuid/uuid.dart';
 import '../../domain/entities/task_entity.dart';
 import '../../domain/repositories/interface_task_repository.dart';
 
-// import '../../domain/interfaces/interface_task_repository.dart';
-
 class ProviderTask extends ChangeNotifier {
   final ITaskRepository repository;
 
@@ -43,6 +41,11 @@ class ProviderTask extends ChangeNotifier {
   Future<void> toggleTaskCompletion(TaskEntity task) async {
     final updated = task.copyWith(isCompleted: !task.isCompleted);
     await repository.updateTask(updated);
+    await fetchTasks();
+  }
+
+  Future<void> editTask(TaskEntity updatedTask) async {
+    await repository.updateTask(updatedTask);
     await fetchTasks();
   }
 

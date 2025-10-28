@@ -50,13 +50,25 @@ class _AddTaskBottomSheetState extends State<AddTaskBottomSheet> {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    foregroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    minimumSize: const Size.fromHeight(45),
+                    elevation: 2,
+                  ),
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
                       await provider.addTask(title: _titleCtrl.text.trim(), description: _descCtrl.text.trim().isEmpty ? null : _descCtrl.text.trim());
                       if (mounted) Navigator.of(context).pop();
                     }
                   },
-                  child: const Text('Add'),
+                  child: const Text(
+                    'Add Task',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
                 ),
                 const SizedBox(height: 12),
               ],

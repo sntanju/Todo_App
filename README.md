@@ -89,9 +89,11 @@ lib/
 |------|------------|
 | UI | Flutter, Material 3 |
 | State Management | Provider |
-| Networking | Dio |
-| API | Open Library API |
-| Architecture | Clean, modular |
+| Local Storage | Hive (NoSQL offline DB) |
+| Dependency Injection | GetIt |
+| Code Generation | Build Runner + Hive Adapters |
+| Architecture | Clean, modular, scalable |
+| Language	| Dart |
 
 ---
 
